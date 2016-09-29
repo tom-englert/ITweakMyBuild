@@ -1,37 +1,21 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="VSPackage1.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
+﻿using System.Diagnostics.Contracts;
 namespace ITweakMyBuild
 {
+    using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Runtime.InteropServices;
 
     using ITweakMyBuild.Properties;
+
+    using JetBrains.Annotations;
 
     using Microsoft.VisualStudio.Shell;
 
     using TomsToolbox.Desktop.Composition;
 
-    /// <summary>
-    /// This is the class that implements the package exposed by this assembly.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// The minimum requirement for a class to be considered a valid package for Visual Studio
-    /// is to implement the IVsPackage interface and register itself with the shell.
-    /// This package uses the helper classes defined inside the Managed Package Framework (MPF)
-    /// to do it: it derives from the Package class that provides the implementation of the
-    /// IVsPackage interface and uses the registration attributes defined in the framework to
-    /// register itself and its components with the shell. These attributes tell the pkgdef creation
-    /// utility what data to put into .pkgdef file.
-    /// </para>
-    /// <para>
-    /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
-    /// </para>
-    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Package handles disposing!")]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", Product.Version, IconResourceID = 400)] // Info on this package for Help/About
     [Guid(PackageGuidString)]
@@ -43,11 +27,19 @@ namespace ITweakMyBuild
         /// <summary>
         /// VSPackage1 GUID string.
         /// </summary>
-        public const string PackageGuidString = "2f1912c8-3493-4dc1-815d-f683124de933";
+        private const string PackageGuidString = "2f1912c8-3493-4dc1-815d-f683124de933";
 
+        [NotNull]
+        public static readonly string ConfigurationFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"tom-englert.de", @"ITweakMyBuild");
+
+        [NotNull]
         public static VSPackage Instance { get; private set; }
 
+        [NotNull]
         public ICompositionHost CompositionHost { get; } = new CompositionHost();
+
+        // ReSharper disable once NotAccessedField.Local
+        private ToolWindowCommand _toolWindowCommand;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -59,14 +51,31 @@ namespace ITweakMyBuild
 
             Instance = this;
 
+            CompositionHost.Container?.ComposeExportedValue(nameof(VSPackage), (IServiceProvider)this);
             CompositionHost.AddCatalog(GetType().Assembly);
+            var tracer = CompositionHost.GetExportedValue<Tracer>();
 
-            ToolWindowCommand.Initialize(this);
+            Contract.Assume(tracer != null);
+
+            tracer.WriteLine("ITweakMyBuild " + Product.Version);
+
+            try
+            {
+                Directory.CreateDirectory(ConfigurationFolder);
+            }
+            catch (Exception ex)
+            {
+                tracer.TraceError(ex.Message);
+            }
+
+            _toolWindowCommand = new ToolWindowCommand(this);
         }
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+
+            _toolWindowCommand?.Dispose();
 
             CompositionHost.Dispose();
         }

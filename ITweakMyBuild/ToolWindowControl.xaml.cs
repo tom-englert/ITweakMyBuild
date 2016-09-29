@@ -19,7 +19,7 @@
         {
             this.SetExportProvider(exportProvider);
 
-            Resources.MergedDictionaries.Add(DataTemplateManager.CreateDynamicDataTemplates(exportProvider));
+            Resources?.MergedDictionaries.Add(DataTemplateManager.CreateDynamicDataTemplates(exportProvider));
 
             InitializeComponent();
         }

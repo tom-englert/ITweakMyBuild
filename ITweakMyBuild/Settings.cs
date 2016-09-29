@@ -1,12 +1,59 @@
 ﻿namespace ITweakMyBuild
 {
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Runtime.Serialization;
 
+    using JetBrains.Annotations;
+
+    using Newtonsoft.Json;
+
     [DataContract]
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class Settings
     {
+        [NotNull]
+        private readonly Tracer _tracer;
+
+        [NotNull]
+        private static readonly string _filePath = Path.Combine(VSPackage.ConfigurationFolder, @"ITweakMyBuild.settings");
+
+        [ImportingConstructor]
+        private Settings([NotNull] Tracer tracer)
+        {
+            _tracer = tracer;
+
+            try
+            {
+                if (File.Exists(_filePath))
+                {
+                    JsonConvert.PopulateObject(File.ReadAllText(_filePath), this);
+                }
+            }
+            catch (Exception ex)
+            {
+                _tracer.TraceError(ex.ToString());
+            }
+        }
+
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Serialized")]
         [DataMember]
         public Property[] Properties { get; set; }
+
+        public void Save()
+        {
+            try
+            {
+                File.WriteAllText(_filePath, JsonConvert.SerializeObject(this));
+            }
+            catch (Exception ex)
+            {
+                _tracer.TraceError(ex.ToString());
+            }
+        }
     }
 
     [DataContract]
@@ -17,5 +64,8 @@
 
         [DataMember]
         public string Value { get; set; }
+
+        [DataMember]
+        public string Comment { get; set; }
     }
 }

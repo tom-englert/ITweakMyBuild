@@ -3,27 +3,30 @@
     using System;
     using System.ComponentModel.Design;
 
+    using JetBrains.Annotations;
+
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class ToolWindowCommand
+    internal sealed class ToolWindowCommand : IDisposable
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        private const int CommandId = 0x0100;
 
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("568b795b-e5a9-4312-8641-c1fea2450cb2");
+        private static readonly Guid _commandSet = new Guid("568b795b-e5a9-4312-8641-c1fea2450cb2");
 
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
+        [NotNull]
         private readonly Package _package;
 
         /// <summary>
@@ -31,7 +34,7 @@
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private ToolWindowCommand(Package package)
+        public ToolWindowCommand([NotNull] Package package)
         {
             if (package == null)
                 throw new ArgumentNullException(nameof(package));
@@ -43,34 +46,17 @@
             if (commandService == null)
                 return;
 
-            var menuCommandID = new CommandID(CommandSet, CommandId);
+            var menuCommandID = new CommandID(_commandSet, CommandId);
             var menuItem = new MenuCommand(ShowToolWindow, menuCommandID);
 
             commandService.AddCommand(menuItem);
         }
 
         /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
-        public static ToolWindowCommand Instance
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
+        [NotNull]
         private IServiceProvider ServiceProvider => _package;
-
-        /// <summary>
-        /// Initializes the singleton instance of the command.
-        /// </summary>
-        /// <param name="package">Owner package, not null.</param>
-        public static void Initialize(Package package)
-        {
-            Instance = new ToolWindowCommand(package);
-        }
 
         /// <summary>
         /// Shows the tool window when the menu item is clicked.
@@ -90,6 +76,10 @@
             var windowFrame = (IVsWindowFrame)window.Frame;
 
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

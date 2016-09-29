@@ -8,7 +8,8 @@
     {
         private string _name;
         private string _value;
-        private string _isEnabled;
+        private string _comment;
+        private bool _isEnabled;
 
         [Required(AllowEmptyStrings = false)]
         public string Name
@@ -36,7 +37,19 @@
             }
         }
 
-        public string IsEnabled
+        public string Comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                SetProperty(ref _comment, value);
+            }
+        }
+
+        public bool IsEnabled
         {
             get
             {
