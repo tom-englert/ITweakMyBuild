@@ -2,6 +2,4 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:toms="urn:TomsToolbox"
-             toms:VisualComposition.RegionId = "Shell"
-             Background="{DynamicResource VsBrush.Window}"
-             Foreground="{DynamicResource VsBrush.WindowText}"/>
+             toms:VisualComposition.RegionId = "Shell" />

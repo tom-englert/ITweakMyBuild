@@ -5,13 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              xmlns:local="clr-namespace:ITweakMyBuild"
              xmlns:toms="urn:TomsToolbox"
-             d:DataContext="{d:DesignInstance local:ShellViewModel}"
-             >
+             xmlns:styles="clr-namespace:TomsToolbox.Wpf.Styles;assembly=TomsToolbox.Wpf.Styles"
+             Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+             d:DataContext="{d:DesignInstance local:ShellViewModel}">
+  <UserControl.Resources>
+    <ResourceDictionary Source="/ITweakMyBuild;component/Resources/VSColorScheme.xaml" />
+  </UserControl.Resources>
   <Grid Margin="10">
     <DataGrid ItemsSource="{Binding Properties}" 
               AutoGenerateColumns="False" 
               VerticalContentAlignment="Center" 
-              CellStyle="{StaticResource {x:Static toms:ResourceKeys.DataGridCellStyle}}">
+              CanUserReorderColumns="False" 
+              CanUserResizeRows="False"
+              CellStyle="{StaticResource {x:Static toms:ResourceKeys.DataGridCellStyle}}"
+              Style="{StaticResource {x:Static styles:ResourceKeys.DataGridStyle}}">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Name" Width="400" Binding="{Binding Name, ValidatesOnDataErrors=True}"/>
         <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value, ValidatesOnDataErrors=True}"/>

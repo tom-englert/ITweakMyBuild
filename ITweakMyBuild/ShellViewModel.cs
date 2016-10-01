@@ -92,8 +92,9 @@
                 {
                     _settings.Properties = new[]
                     {
-                        new Property { Name = "CodeContractsRunCodeAnalysis", Value = "false", Comment = "Disable the static CodeContracts analysis." },
-                        new Property { Name = "CodeContractsEnableRuntimeChecking", Value = "false", Comment = "Disable CodeContracts runtime checking." }
+                        new Property { Name = "CodeContractsRunCodeAnalysis", Value = "false", Comment = "Disable Static CodeContracts Analysis." },
+                        new Property { Name = "CodeContractsEnableRuntimeChecking", Value = "false", Comment = "Disable CodeContracts Runtime Checking." },
+                        new Property { Name = "RunCodeAnalysis", Value = "false", Comment = "Disable Code Analysis on Build." }
                     };
                 }
 
@@ -103,7 +104,7 @@
                 _properties = new ObservableCollection<PropertyViewModel>(properties.Select(item => new PropertyViewModel { Name = item.Name, Value = item.Value, Comment = item.Comment }));
 
                 // ReSharper disable once PossibleNullReferenceException
-                _properties.ForEach(item => item.IsEnabled = _customTargetsFile.Properties.ContainsKey(item.Name));
+                _properties.ForEach(item => item.IsEnabled = !string.IsNullOrEmpty(item.Name) && _customTargetsFile.Properties.ContainsKey(item.Name));
 
                 _properties.CollectionChanged += Properties_Changed;
 

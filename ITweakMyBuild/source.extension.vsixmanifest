@@ -3,7 +3,11 @@
   <Metadata>
     <Identity Id="ITweakMyBuild.Tom Englert.92edc38f-1498-4327-8078-6ff3cec52067" Version="1.0" Language="en-US" Publisher="tom-englert" />
     <DisplayName>ITweakMyBuild</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">ITweakMyBuild let's you customize your build on the fly.</Description>
+    <MoreInfo>https://github.com/tom-englert/ITweakMyBuild</MoreInfo>
+    <Icon>Resources\Icon32.png</Icon>
+    <PreviewImage>Resources\Icon64.png</PreviewImage>
+    <Tags>MSBuild Build VisualStudio</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[11.0,15.0]" />
