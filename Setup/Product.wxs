@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:VSExtension="http://schemas.microsoft.com/wix/VSExtension">
   <Product Id="*" Name="ITweakMyBuild" Language="1033" Version="1.0.0.0" Manufacturer="tom-englert.de" UpgradeCode="F39B88DA-FC9E-4173-BEA4-4BEF4B30B4AF">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -8,6 +8,7 @@
     <MediaTemplate EmbedCab="yes" />
 
     <Feature Id="ProductFeature" Title="Setup" Level="1">
+      <ComponentGroupRef Id="VSIX" />
       <ComponentGroupRef Id="ImportAfterTargets" />
     </Feature>
   </Product>
@@ -15,7 +16,9 @@
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="Setup" />
+        <Directory Id="Company" Name="tom-englert.de" >
+          <Directory Id="INSTALLFOLDER" Name="$(var.ITweakMyBuild.TargetName)" />
+        </Directory>
 
         <Directory Id="MSBuild" Name="MSBuild">
           <Directory Id="_4" Name="4.0">
@@ -39,6 +42,13 @@
   </Fragment>
 
   <Fragment>
+    <ComponentGroup Id="VSIX">
+      <Component Id="VSIXComponent" Guid="F8F43870-6A4F-4298-A0DA-D7D9F78F227F" Directory="INSTALLFOLDER">
+        <VSExtension:VsixPackage File="VSIXFile" PackageId="ITweakMyBuild.tom-englert.de.92edc38f-1498-4327-8078-6ff3cec52067" Vital="yes" Permanent="no" />
+        <File Id="VSIXFile" Name="$(var.ITweakMyBuild.TargetName).vsix" Source="$(var.ITweakMyBuild.TargetDir)\$(var.ITweakMyBuild.TargetName).vsix" />
+      </Component>      
+    </ComponentGroup>
+    
     <ComponentGroup Id="ImportAfterTargets">
       <Component Id="Targets_4" Guid="9045DA89-93FB-4697-840B-2A938306FD73" Directory="ImportAfterTargets_4">
         <File Id="ITweakMyBuild.ImportAfter.Targets_4" Source="tom-englert.de.ITweakMyBuild.ImportAfter.targets" Checksum="yes" KeyPath="yes" Vital="yes" />
