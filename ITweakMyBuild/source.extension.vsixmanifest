@@ -5,6 +5,7 @@
     <DisplayName>ITweakMyBuild</DisplayName>
     <Description xml:space="preserve">ITweakMyBuild let's you customize your build on the fly.</Description>
     <MoreInfo>https://github.com/tom-englert/ITweakMyBuild</MoreInfo>
+    <License>License</License>
     <Icon>Resources\Icon32.png</Icon>
     <PreviewImage>Resources\Icon64.png</PreviewImage>
     <Tags>MSBuild Build VisualStudio</Tags>

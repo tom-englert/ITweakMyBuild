@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Key.snk" />
+    <None Include="License">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </None>
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
