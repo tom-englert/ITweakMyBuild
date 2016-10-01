@@ -79,8 +79,6 @@
             {
                 try
                 {
-
-
                     var itemsToRemove = _propertyGroup.Descendants()
                         .Where(item => item.Parent == _propertyGroup)
                         .Where(item => !value.ContainsKey(item.Name.LocalName))

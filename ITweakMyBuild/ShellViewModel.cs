@@ -16,6 +16,7 @@
     using TomsToolbox.ObservableCollections;
     using TomsToolbox.Wpf.Composition;
 
+    [Export]
     [VisualCompositionExport("Shell")]
     internal class ShellViewModel : ObservableObject, IDisposable
     {
@@ -41,6 +42,10 @@
             _fileSystemWatcher.Changed += FileSystemWatcher_Changed;
         }
 
+        public ICollection<PropertyViewModel> Properties => _session.Properties;
+
+        public bool IsActive => _session.IsActive;
+
         [NotNull]
         private Session CreateSession()
         {
@@ -59,8 +64,6 @@
         {
             _fileChangedThrottle.Tick();
         }
-
-        public ICollection<PropertyViewModel> Properties => _session.Properties;
 
         public void Dispose()
         {
@@ -114,6 +117,8 @@
             }
 
             public ICollection<PropertyViewModel> Properties => _properties;
+
+            public bool IsActive => _customTargetsFile.Properties.Any();
 
             [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
             private void ApplyChanges()

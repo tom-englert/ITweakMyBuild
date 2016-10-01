@@ -1,9 +1,9 @@
-﻿using System.Diagnostics.Contracts;
-namespace ITweakMyBuild
+﻿namespace ITweakMyBuild
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Runtime.InteropServices;
 
@@ -70,6 +70,8 @@ namespace ITweakMyBuild
             }
 
             _toolWindowCommand = new ToolWindowCommand(this);
+
+            BuildNotification.Register(CompositionHost.Container);
         }
 
         protected override void Dispose(bool disposing)
