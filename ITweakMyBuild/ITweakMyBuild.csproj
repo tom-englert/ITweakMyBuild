@@ -226,8 +226,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CustomTargetsTemplate.xml" />
-    <Content Include="Resources\ToolWindowCommand.png" />
-    <Content Include="Resources\VSPackage.ico" />
+    <Content Include="Resources\Icon.ico" />
+    <Content Include="Resources\Icon32.png" />
+    <Content Include="Resources\Icon64.png" />
+    <Content Include="Resources\Icon16.png" />
     <VSCTCompile Include="VSPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>

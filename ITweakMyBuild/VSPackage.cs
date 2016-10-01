@@ -53,6 +53,7 @@ namespace ITweakMyBuild
 
             CompositionHost.Container?.ComposeExportedValue(nameof(VSPackage), (IServiceProvider)this);
             CompositionHost.AddCatalog(GetType().Assembly);
+
             var tracer = CompositionHost.GetExportedValue<Tracer>();
 
             Contract.Assume(tracer != null);
