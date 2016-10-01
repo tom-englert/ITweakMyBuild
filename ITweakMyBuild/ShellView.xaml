@@ -22,7 +22,8 @@
               Style="{StaticResource {x:Static styles:ResourceKeys.DataGridStyle}}">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Name" Width="400" Binding="{Binding Name, ValidatesOnDataErrors=True}"/>
-        <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value, ValidatesOnDataErrors=True}"/>
+        <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Value, ValidatesOnDataErrors=True}"/>
+        <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
       </DataGrid.Columns>
       <DataGrid.ItemContainerStyle>
         <Style TargetType="DataGridRow">
