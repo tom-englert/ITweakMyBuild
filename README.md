@@ -10,7 +10,7 @@ In such cases you may want to temporarily turn of these tasks, finish your imple
 and finally turn on the task again, to verify that your code succeeds the static analysis.
 
 While you could solve this using several solution configurations, like "Debug", "DebugNoCA", etc..,
-using this approach has some odds:
+using this approach has some disadvantages:
 
 - since you have to maintain all these configurations in every project, you will end up in the maintenence hell soon.
 - also switching between configurations in Visual Studio is a time consuming task, if you have more than a few projects.
