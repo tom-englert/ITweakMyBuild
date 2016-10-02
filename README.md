@@ -22,14 +22,16 @@ It let's you locally override any property, without the need to switch the build
 
 Show the configuration page by clicking the entry in the Tools menu:
 
-![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/menu.png)
+![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/menu.png)
 
 Configure any property override, and activate or deactivate it on the fly:
 
-![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/toolwindow.png)
+![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/toolwindow.png)
 
 Build you project. Whenever any property override is active, a red, flashing marker 
 appears the title bar of Visual Studio while the project builds, to remind you that this 
 build is tweaked, and you should do a final build without tweaks before commiting any work.
+
+![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/buildindicator.png)
 
 
