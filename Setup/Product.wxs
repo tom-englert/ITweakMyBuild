@@ -3,7 +3,9 @@
      xmlns:VSExtension="http://schemas.microsoft.com/wix/VSExtension">
   <Product Id="*" Name="ITweakMyBuild" Language="1033" Version="1.0.0.0" Manufacturer="tom-englert.de" UpgradeCode="F39B88DA-FC9E-4173-BEA4-4BEF4B30B4AF">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
+    <Icon Id="ProductIcon" SourceFile="$(var.ITweakMyBuild.TargetDir)\Resources\Icon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+    
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
     <MediaTemplate EmbedCab="yes" />
 
