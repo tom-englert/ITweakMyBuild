@@ -12,6 +12,7 @@
     using JetBrains.Annotations;
 
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     using TomsToolbox.Desktop.Composition;
 
@@ -22,6 +23,7 @@
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ToolWindow))]
+    [ProvideAutoLoad(UIContextGuids.SolutionExists)]
     public sealed class VSPackage : Package
     {
         /// <summary>
