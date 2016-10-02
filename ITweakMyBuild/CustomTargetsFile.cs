@@ -16,17 +16,19 @@
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CustomTargetsFile
     {
-        [NotNull]
-        private readonly Tracer _tracer;
         private static readonly string _filePath = Path.Combine(VSPackage.ConfigurationFolder, @"ITweakMyBuild.targets");
         private static readonly XNamespace _xmlns = @"http://schemas.microsoft.com/developer/msbuild/2003";
         private static readonly XName _projectName = _xmlns + @"Project";
         private static readonly XName _propertyGroupName = _xmlns + @"PropertyGroup";
 
         [NotNull]
+        private readonly Tracer _tracer;
+        [NotNull]
         private readonly XDocument _document;
         [NotNull]
         private readonly XElement _propertyGroup;
+
+        private DateTime _fileTime;
 
         [ImportingConstructor]
         private CustomTargetsFile([NotNull] Tracer tracer)
@@ -39,6 +41,7 @@
                     try
                     {
                         _document = XDocument.Load(_filePath);
+                        _fileTime = File.GetLastWriteTime(_filePath);
                         return;
                     }
                     catch (Exception ex)
@@ -65,6 +68,8 @@
                 }
             }
         }
+
+        public bool HasExternalChanges => !File.Exists(_filePath) || _fileTime != File.GetLastWriteTime(_filePath);
 
         [NotNull]
         public IReadOnlyDictionary<string, string> Properties
@@ -94,6 +99,7 @@
                     itemsToAdd.ForEach(item => _propertyGroup.Add(new XElement(_xmlns.GetName(item.Key), new XText(item.Value))));
 
                     _document.Save(_filePath);
+                    _fileTime = File.GetLastWriteTime(_filePath);
                 }
                 catch (Exception ex)
                 {

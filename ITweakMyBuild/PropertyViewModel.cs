@@ -24,7 +24,6 @@
             }
         }
 
-        [Required(AllowEmptyStrings = false)]
         public string Value
         {
             get

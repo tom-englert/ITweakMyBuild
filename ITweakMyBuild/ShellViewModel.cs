@@ -55,9 +55,13 @@
 
         private void Reload()
         {
+            if (!_session.HasExternalChanges)
+                return;
+
             _session = CreateSession();
 
             OnPropertyChanged(nameof(Properties));
+            OnPropertyChanged(nameof(IsActive));
         }
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -118,19 +122,22 @@
 
             public ICollection<PropertyViewModel> Properties => _properties;
 
+            public bool HasExternalChanges => _settings.HasExternalChanges || _customTargetsFile.HasExternalChanges;
+
             public bool IsActive => _customTargetsFile.Properties.Any();
 
             [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
             private void ApplyChanges()
             {
                 _settings.Properties = _properties
+                    .Where(item => !string.IsNullOrEmpty(item?.Name))
                     .Select(item => new Property { Name = item.Name, Value = item.Value, Comment = item.Comment })
                     .ToArray();
 
                 _settings.Save();
 
                 _customTargetsFile.Properties = _properties
-                    .Where(item => item?.IsEnabled == true)
+                    .Where(item => (item?.IsEnabled == true) && !string.IsNullOrEmpty(item.Name))
                     .Distinct(new DelegateEqualityComparer<PropertyViewModel>(item => item.Name))
                     .ToDictionary(item => item.Name, item => item.Value);
             }

@@ -17,9 +17,10 @@
     {
         [NotNull]
         private readonly Tracer _tracer;
-
         [NotNull]
         private static readonly string _filePath = Path.Combine(VSPackage.ConfigurationFolder, @"ITweakMyBuild.settings");
+
+        private DateTime _fileTime;
 
         [ImportingConstructor]
         private Settings([NotNull] Tracer tracer)
@@ -31,6 +32,7 @@
                 if (File.Exists(_filePath))
                 {
                     JsonConvert.PopulateObject(File.ReadAllText(_filePath), this);
+                    _fileTime = File.GetLastWriteTime(_filePath);
                 }
             }
             catch (Exception ex)
@@ -43,11 +45,14 @@
         [DataMember]
         public Property[] Properties { get; set; }
 
+        public bool HasExternalChanges => !File.Exists(_filePath) || _fileTime != File.GetLastWriteTime(_filePath);
+
         public void Save()
         {
             try
             {
                 File.WriteAllText(_filePath, JsonConvert.SerializeObject(this));
+                _fileTime = File.GetLastWriteTime(_filePath);
             }
             catch (Exception ex)
             {
