@@ -24,17 +24,17 @@
 
         <Directory Id="MSBuild" Name="MSBuild">
           <Directory Id="_4" Name="4.0">
-            <Directory Id="MicrosofotCommonTargets_4" Name="Microsoft.Common.Targets">
+            <Directory Id="MicrosoftCommonTargets_4" Name="Microsoft.Common.Targets">
               <Directory Id="ImportAfterTargets_4" Name="ImportAfter" />
             </Directory>
           </Directory>
           <Directory Id="_12" Name="12.0">
-            <Directory Id="MicrosofotCommonTargets_12" Name="Microsoft.Common.Targets">
+            <Directory Id="MicrosoftCommonTargets_12" Name="Microsoft.Common.Targets">
               <Directory Id="ImportAfterTargets_12" Name="ImportAfter" />
             </Directory>
           </Directory>
           <Directory Id="_14" Name="14.0">
-            <Directory Id="MicrosofotCommonTargets_14" Name="Microsoft.Common.Targets">
+            <Directory Id="MicrosoftCommonTargets_14" Name="Microsoft.Common.Targets">
               <Directory Id="ImportAfterTargets_14" Name="ImportAfter" />
             </Directory>
           </Directory>
