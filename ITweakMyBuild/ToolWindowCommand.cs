@@ -6,7 +6,6 @@
     using JetBrains.Annotations;
 
     using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// Command handler
@@ -27,14 +26,14 @@
         /// VS Package that provides this command, not null.
         /// </summary>
         [NotNull]
-        private readonly Package _package;
+        private readonly VSPackage _package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolWindowCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        public ToolWindowCommand([NotNull] Package package)
+        public ToolWindowCommand([NotNull] VSPackage package)
         {
             if (package == null)
                 throw new ArgumentNullException(nameof(package));
@@ -65,17 +64,7 @@
         /// <param name="e">The event args.</param>
         private void ShowToolWindow(object sender, EventArgs e)
         {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            var window = (ToolWindow)_package.FindToolWindow(typeof(ToolWindow), 0, true);
-
-            if (window?.Frame == null)
-                throw new NotSupportedException("Cannot create tool window");
-
-            var windowFrame = (IVsWindowFrame)window.Frame;
-
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            _package.ShowToolWindow();
         }
 
         public void Dispose()
