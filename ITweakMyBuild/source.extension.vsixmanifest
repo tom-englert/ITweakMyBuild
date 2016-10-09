@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ITweakMyBuild.tom-englert.de.92edc38f-1498-4327-8078-6ff3cec52067" Version="1.0.0.0" Language="en-US" Publisher="tom-englert" />
+    <Identity Id="ITweakMyBuild.tom-englert.de.92edc38f-1498-4327-8078-6ff3cec52067" Version="1.0.1.0" Language="en-US" Publisher="tom-englert" />
     <DisplayName>ITweakMyBuild</DisplayName>
     <Description xml:space="preserve">ITweakMyBuild let's you customize your build on the fly.</Description>
     <MoreInfo>https://github.com/tom-englert/ITweakMyBuild</MoreInfo>
