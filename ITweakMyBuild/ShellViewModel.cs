@@ -18,7 +18,7 @@
 
     [Export]
     [VisualCompositionExport("Shell")]
-    internal class ShellViewModel : ObservableObject, IDisposable
+    internal class ShellViewModel : ObservableObject, IStateMonitor, IDisposable
     {
         [NotNull]
         private readonly ExportProvider _exportProvider;
@@ -55,12 +55,12 @@
 
         private void Reload()
         {
-            if (!_session.HasExternalChanges)
-                return;
+            if (_session.HasExternalChanges)
+            {
+                _session = CreateSession();
+                OnPropertyChanged(nameof(Properties));
+            }
 
-            _session = CreateSession();
-
-            OnPropertyChanged(nameof(Properties));
             OnPropertyChanged(nameof(IsActive));
         }
 

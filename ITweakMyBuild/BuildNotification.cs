@@ -55,9 +55,6 @@
 
         private void BuildEvents_OnBuildBegin(vsBuildScope scope, vsBuildAction action)
         {
-            if (!_shellViewModel.IsActive)
-                return;
-
             if (_notificationControl == null)
                 _notificationControl = CreateNotificationControl();
 
@@ -67,7 +64,7 @@
            _notificationControl.Visibility = Visibility.Visible;
         }
 
-        private static FrameworkElement CreateNotificationControl()
+        private FrameworkElement CreateNotificationControl()
         {
             var mainWindow = Application.Current?.MainWindow;
             if (mainWindow == null)
@@ -81,7 +78,7 @@
 
             var index = dockPanelChildren.IndexOf(frameControlContainer);
 
-            var control = new BuildNotificationControl();
+            var control = new BuildNotificationControl(_shellViewModel);
 
             dockPanelChildren.Insert(index + 1, control);
 

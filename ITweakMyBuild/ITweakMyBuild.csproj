@@ -59,6 +59,7 @@
       <DependentUpon>BuildNotificationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomTargetsFile.cs" />
+    <Compile Include="IStateMonitor.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

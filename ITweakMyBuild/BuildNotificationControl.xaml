@@ -3,23 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="26"
-             Height="26" Width="36" Background="Red" DockPanel.Dock="Right" VerticalAlignment="Top"
+             Height="26" Width="36" DockPanel.Dock="Right" VerticalAlignment="Top"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              >
-  <UserControl.Resources>
-    <Storyboard x:Key="AnimationStoryboard" TargetName="Image">
-      <DoubleAnimation From="0" To="1" Duration="0:0:1" RepeatBehavior="Forever" Storyboard.TargetProperty="(FrameworkElement.Opacity)" />
-    </Storyboard>
-  </UserControl.Resources>
+  <UserControl.Style>
+    <Style TargetType="UserControl">
+      <Setter Property="Background" Value="Green"/>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding StateMonitor.IsActive}" Value="True">
+          <Setter Property="Background" Value="Red"/>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </UserControl.Style>
   <Image x:Name="Image"
-         Source="{Binding ImageSource, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+         Source="{Binding ImageSource}"
          Stretch="None" Width="16" Height="16"
-         VerticalAlignment="Center" HorizontalAlignment="Center"/>
-  <UserControl.Triggers>
-    <EventTrigger RoutedEvent="Loaded">
-      <BeginStoryboard Name="Animation" Storyboard="{StaticResource AnimationStoryboard}"/>
-    </EventTrigger>
-    <EventTrigger RoutedEvent="Unloaded">
-      <StopStoryboard BeginStoryboardName="Animation" />
-    </EventTrigger>
-  </UserControl.Triggers>
+         VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Image.Resources>
+      <Storyboard x:Key="AnimationStoryboard">
+        <DoubleAnimation From="0" To="1" Duration="0:0:1" RepeatBehavior="Forever" Storyboard.TargetProperty="(FrameworkElement.Opacity)" />
+      </Storyboard>
+    </Image.Resources>
+    <Image.Style>
+      <Style TargetType="Image">
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding StateMonitor.IsActive}" Value="True">
+            <DataTrigger.EnterActions>
+              <BeginStoryboard Name="Animation" Storyboard="{StaticResource AnimationStoryboard}"/>
+            </DataTrigger.EnterActions>
+            <DataTrigger.ExitActions>
+              <StopStoryboard BeginStoryboardName="Animation" />
+            </DataTrigger.ExitActions>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </Image.Style>
+  </Image>
 </UserControl>

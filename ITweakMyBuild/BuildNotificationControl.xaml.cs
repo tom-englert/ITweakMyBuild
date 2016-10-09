@@ -11,6 +11,8 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
 
+    using JetBrains.Annotations;
+
     using Microsoft.Win32.SafeHandles;
 
     /// <summary>
@@ -18,10 +20,13 @@
     /// </summary>
     public partial class BuildNotificationControl
     {
-        public BuildNotificationControl()
+        public BuildNotificationControl(IStateMonitor stateMonitor)
         {
+            StateMonitor = stateMonitor;
             InitializeComponent();
         }
+
+        public IStateMonitor StateMonitor { get; }
 
         // pack uri won't find the image since extensions are loaded dynamically ...
         public static ImageSource ImageSource => Properties.Resources.Icon16.ToBitmapSource();
@@ -41,7 +46,7 @@
         private sealed class SafeHBitmapHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
             [SecurityCritical]
-            public SafeHBitmapHandle(Bitmap bitmap)
+            public SafeHBitmapHandle([NotNull] Bitmap bitmap)
                 : base(true)
             {
                 SetHandle(bitmap.GetHbitmap());
