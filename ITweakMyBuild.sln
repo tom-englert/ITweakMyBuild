@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITweakMyBuild", "ITweakMyBu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C16AD655-7E3C-4BAE-827F-56602C318A64}"
 	ProjectSection(SolutionItems) = preProject
+		ITweakMyBuild\Properties\AssemblyInfo.cs = ITweakMyBuild\Properties\AssemblyInfo.cs
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
 	EndProjectSection
