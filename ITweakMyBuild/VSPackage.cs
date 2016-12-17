@@ -69,7 +69,7 @@
 
             Instance = this;
 
-            CompositionHost.Container?.ComposeExportedValue(nameof(VSPackage), (IServiceProvider)this);
+            CompositionHost.Container.ComposeExportedValue(nameof(VSPackage), (IServiceProvider)this);
             CompositionHost.AddCatalog(GetType().Assembly);
 
             var tracer = CompositionHost.GetExportedValue<Tracer>();

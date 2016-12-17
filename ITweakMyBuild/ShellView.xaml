@@ -4,21 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              xmlns:local="clr-namespace:ITweakMyBuild"
-             xmlns:toms="urn:TomsToolbox"
              xmlns:styles="clr-namespace:TomsToolbox.Wpf.Styles;assembly=TomsToolbox.Wpf.Styles"
              Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
              Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
              d:DataContext="{d:DesignInstance local:ShellViewModel}">
   <UserControl.Resources>
-    <ResourceDictionary Source="/ITweakMyBuild;component/Resources/VSColorScheme.xaml" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ITweakMyBuild;component/Resources/VSColorScheme.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- A copy of the original data grid cell style, extended with
+        VerticalAlignment binding to control the vertical alignment of the content via the DataGrid.VerticalContentAlignment property.
+        Also added support for padding.
+      -->
+      <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellStyle">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type DataGridCell}">
+              <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <Trigger Property="IsSelected" Value="True">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+          </Trigger>
+          <Trigger Property="IsKeyboardFocusWithin" Value="True">
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+
+      <!-- Data grid with check boxes for row selection: Style to be applied to the check box inside the row header template. -->
+      <Style TargetType="CheckBox" x:Key="DataGridRowCheckBoxStyle">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="DockPanel.Dock" Value="Left" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="IsChecked"
+            Value="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Mode=TwoWay}" />
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Path=SelectionMode, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" Value="Single">
+            <Setter Property="Visibility" Value="Hidden" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
   </UserControl.Resources>
+
   <Grid Margin="10">
     <DataGrid ItemsSource="{Binding Properties}"
               AutoGenerateColumns="False"
               VerticalContentAlignment="Center"
               CanUserReorderColumns="False"
               CanUserResizeRows="False"
-              CellStyle="{StaticResource {x:Static toms:ResourceKeys.DataGridCellStyle}}"
+              CellStyle="{StaticResource DataGridCellStyle}"
               Style="{StaticResource {x:Static styles:ResourceKeys.DataGridStyle}}">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Property" Width="300" Binding="{Binding Name, ValidatesOnDataErrors=True}" />
@@ -32,7 +79,7 @@
       </DataGrid.ItemContainerStyle>
       <DataGrid.RowHeaderTemplate>
         <DataTemplate DataType="DataGridRowHeader">
-          <CheckBox Style="{StaticResource {x:Static toms:ResourceKeys.DataGridRowCheckBoxStyle}}" Margin="0" />
+          <CheckBox Style="{StaticResource DataGridRowCheckBoxStyle}" Margin="0" />
         </DataTemplate>
       </DataGrid.RowHeaderTemplate>
     </DataGrid>
