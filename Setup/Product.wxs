@@ -38,6 +38,11 @@
               <Directory Id="ImportAfterTargets_14" Name="ImportAfter" />
             </Directory>
           </Directory>
+          <Directory Id="_15" Name="15.0">
+            <Directory Id="MicrosoftCommonTargets_15" Name="Microsoft.Common.Targets">
+              <Directory Id="ImportAfterTargets_15" Name="ImportAfter" />
+            </Directory>
+          </Directory>
         </Directory>
       </Directory>
     </Directory>
@@ -60,6 +65,9 @@
       </Component>
       <Component Id="Targets_14" Guid="BEA271A8-01BD-4C5C-B8BB-B13A3E814CE0" Directory="ImportAfterTargets_14">
         <File Id="ITweakMyBuild.ImportAfter.Targets_14" Source="tom-englert.de.ITweakMyBuild.ImportAfter.targets" Checksum="yes" KeyPath="yes" Vital="yes" />
+      </Component>
+      <Component Id="Targets_15" Guid="A58A66EC-47AD-4697-B3EA-1F38396AA2A6" Directory="ImportAfterTargets_15">
+        <File Id="ITweakMyBuild.ImportAfter.Targets_15" Source="tom-englert.de.ITweakMyBuild.ImportAfter.targets" Checksum="yes" KeyPath="yes" Vital="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>
