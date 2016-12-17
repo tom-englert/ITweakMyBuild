@@ -1,4 +1,4 @@
-# ITweakMyBuild
+# ITweakMyBuild  ![Badge](https://tom-englert.visualstudio.com/_apis/public/build/definitions/75bf84d2-d359-404a-a712-07c9f693f635/10/badge)
 Change global build parameters on the fly
 
 During development even highly recommended tasks like e.g. static code analysis can be 
