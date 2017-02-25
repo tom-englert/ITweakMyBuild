@@ -68,9 +68,9 @@
               CellStyle="{StaticResource DataGridCellStyle}"
               Style="{StaticResource {x:Static styles:ResourceKeys.DataGridStyle}}">
       <DataGrid.Columns>
+        <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}" />
         <DataGridTextColumn Header="Property" Width="300" Binding="{Binding Name, ValidatesOnDataErrors=True}" />
         <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Value}" />
-        <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}" />
       </DataGrid.Columns>
       <DataGrid.ItemContainerStyle>
         <Style TargetType="DataGridRow">
