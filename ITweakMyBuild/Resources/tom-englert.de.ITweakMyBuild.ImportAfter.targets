@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ITweakMyBuildCustomTargets>$(LocalAppData)\tom-englert.de\ITweakMyBuild\ITweakMyBuild.targets</ITweakMyBuildCustomTargets>
+  </PropertyGroup>
+
+  <Import Project="$(ITweakMyBuildCustomTargets)" Condition="Exists('$(ITweakMyBuildCustomTargets)')" />
+
+</Project>

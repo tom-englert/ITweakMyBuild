@@ -7,6 +7,8 @@
     using System.IO;
     using System.Runtime.InteropServices;
 
+    using DataGridExtensions;
+
     using ITweakMyBuild.Properties;
 
     using JetBrains.Annotations;
@@ -24,7 +26,7 @@
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ToolWindow))]
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
-    public sealed class VSPackage : Package
+    public sealed class VSPackage : Package, IContentFilter
     {
         /// <summary>
         /// VSPackage1 GUID string.
@@ -32,9 +34,9 @@
         private const string PackageGuidString = "2f1912c8-3493-4dc1-815d-f683124de933";
 
         [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
         public static readonly string ConfigurationFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"tom-englert.de", @"ITweakMyBuild");
 
-        [NotNull]
         public static VSPackage Instance { get; private set; }
 
         [NotNull]
@@ -90,6 +92,11 @@
             _toolWindowCommand = new ToolWindowCommand(this);
 
             BuildNotification.Register(CompositionHost.Container);
+
+            if (!Setup.IsComplete)
+            {
+                Setup.Start();
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -99,6 +106,12 @@
             _toolWindowCommand?.Dispose();
 
             CompositionHost.Dispose();
+        }
+
+        bool IContentFilter.IsMatch(object value)
+        {
+            // not used, just to add some hard coded refrence to dgx.
+            return false;
         }
     }
 }

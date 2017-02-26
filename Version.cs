@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
 using ITweakMyBuild.Properties;
 
-[assembly: AssemblyTitle("ITweakMyBuild")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")] /*
 [assembly: AssemblyCompany("tom-englert.de")]
 [assembly: AssemblyProduct("ITweakMyBuild")]
-[assembly: AssemblyCopyright("© tom-englert.de 2016")]
+[assembly: AssemblyCopyright("� tom-englert.de 2016")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
@@ -27,4 +24,3 @@ namespace ITweakMyBuild.Properties
         public const string Version = "1.0.3.0";
     }
 }
-*/
