@@ -16,9 +16,15 @@
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CustomTargetsFile
     {
+        [NotNull]
         private static readonly string _filePath = Path.Combine(VSPackage.ConfigurationFolder, @"ITweakMyBuild.targets");
+        [NotNull]
         private static readonly XNamespace _xmlns = @"http://schemas.microsoft.com/developer/msbuild/2003";
+        [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
         private static readonly XName _projectName = _xmlns + @"Project";
+        [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
         private static readonly XName _propertyGroupName = _xmlns + @"PropertyGroup";
 
         [NotNull]
@@ -59,6 +65,7 @@
 
                 Contract.Assume(_document.Root != null);
 
+                // ReSharper disable once AssignNullToNotNullAttribute
                 _propertyGroup = _document.Root.Descendants(_propertyGroupName).FirstOrDefault();
 
                 if (_propertyGroup == null)
@@ -77,6 +84,7 @@
             get
             {
                 return _propertyGroup.Descendants()
+                    // ReSharper disable once PossibleNullReferenceException
                     .Where(item => item.Parent == _propertyGroup)
                     .ToDictionary(item => item.Name.LocalName, item => item.Value);
             }
@@ -85,10 +93,12 @@
                 try
                 {
                     var itemsToRemove = _propertyGroup.Descendants()
+                        // ReSharper disable once PossibleNullReferenceException
                         .Where(item => item.Parent == _propertyGroup)
                         .Where(item => !value.ContainsKey(item.Name.LocalName))
                         .ToArray();
 
+                    // ReSharper disable once PossibleNullReferenceException
                     itemsToRemove.ForEach(item => item.Remove());
 
                     var existingItems = Properties;
@@ -96,7 +106,9 @@
                     var itemsToAdd = value.Where(item => !existingItems.ContainsKey(item.Key))
                         .ToArray();
 
+                    // ReSharper disable AssignNullToNotNullAttribute
                     itemsToAdd.ForEach(item => _propertyGroup.Add(new XElement(_xmlns.GetName(item.Key), new XText(item.Value))));
+                    // ReSharper enable AssignNullToNotNullAttribute
 
                     _document.Save(_filePath);
                     _fileTime = File.GetLastWriteTime(_filePath);

@@ -61,12 +61,12 @@ namespace ITweakMyBuild.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap Icon16 {
+        internal static byte[] ImportAfter {
             get {
-                object obj = ResourceManager.GetObject("Icon16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("ImportAfter", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

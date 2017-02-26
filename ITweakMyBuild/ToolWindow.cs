@@ -22,7 +22,7 @@
         {
             base.OnCreate();
 
-            Content = VSPackage.Instance.CompositionHost.GetExportedValue<ToolWindowControl>();
+            Content = VSPackage.Instance?.CompositionHost.GetExportedValue<ToolWindowControl>();
         }
     }
 }

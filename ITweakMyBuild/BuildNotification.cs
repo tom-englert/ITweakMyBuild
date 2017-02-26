@@ -5,8 +5,6 @@
     using System.ComponentModel.Composition.Hosting;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Media;
 
     using EnvDTE;
 
@@ -96,6 +94,7 @@
         }
 
         [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
         private EnvDTE80.DTE2 Dte => (EnvDTE80.DTE2)_serviceProvider.GetService(typeof(SDTE));
     }
 }

@@ -1,5 +1,4 @@
-﻿ // ReSharper disable once CheckNamespace
-namespace ITweakMyBuild
+﻿namespace ITweakMyBuild
 {
     internal static class Program
     {

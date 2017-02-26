@@ -7,8 +7,6 @@
     using System.IO;
     using System.Runtime.InteropServices;
 
-    using DataGridExtensions;
-
     using ITweakMyBuild.Properties;
 
     using JetBrains.Annotations;
@@ -26,7 +24,7 @@
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ToolWindow))]
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
-    public sealed class VSPackage : Package, IContentFilter
+    public sealed class VSPackage : Package
     {
         /// <summary>
         /// VSPackage1 GUID string.
@@ -106,12 +104,6 @@
             _toolWindowCommand?.Dispose();
 
             CompositionHost.Dispose();
-        }
-
-        bool IContentFilter.IsMatch(object value)
-        {
-            // not used, just to add some hard coded refrence to dgx.
-            return false;
         }
     }
 }

@@ -3,6 +3,8 @@
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
 
+    using JetBrains.Annotations;
+
     using TomsToolbox.Wpf.Composition;
 
     /// <summary>
@@ -15,11 +17,11 @@
         /// Initializes a new instance of the <see cref="ToolWindowControl"/> class.
         /// </summary>
         [ImportingConstructor]
-        public ToolWindowControl(ExportProvider exportProvider)
+        public ToolWindowControl([NotNull] ExportProvider exportProvider)
         {
             this.SetExportProvider(exportProvider);
 
-            Resources?.MergedDictionaries.Add(DataTemplateManager.CreateDynamicDataTemplates(exportProvider));
+            Resources.MergedDictionaries.Add(DataTemplateManager.CreateDynamicDataTemplates(exportProvider));
 
             InitializeComponent();
         }

@@ -29,13 +29,15 @@
         public IStateMonitor StateMonitor { get; }
 
         // pack uri won't find the image since extensions are loaded dynamically ...
+        // ReSharper disable once AssignNullToNotNullAttribute
         public static ImageSource ImageSource => Properties.Resources.Icon16.ToBitmapSource();
     }
 
     internal static class BitmapExtensions
     {
+        [NotNull]
         [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle")]
-        public static BitmapSource ToBitmapSource(this Bitmap source)
+        public static BitmapSource ToBitmapSource([NotNull] this Bitmap source)
         {
             using (var handle = new SafeHBitmapHandle(source))
             {

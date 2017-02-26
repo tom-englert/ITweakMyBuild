@@ -13,30 +13,39 @@
 
     public static class Setup
     {
-        [NotNull]
-        private static readonly string[] _msBuildVersions = new[] { "4.0", "12.0", "14.0", "15.0" };
+        private const string _title = "ITweakMyBuild";
 
         private const string ImportAfterTargetsFileName = "tom-englert.de.ITweakMyBuild.ImportAfter.targets";
+
+        [NotNull]
+        private static readonly string[] _msBuildVersions = { "4.0", "12.0", "14.0", "15.0" };
 
         public static bool IsComplete => _msBuildVersions.Select(GetImportAfterTargetsFilePath).All(File.Exists);
 
         public static void Start()
         {
-            if (MessageBox.Show("ITweakMyBuild needs administrative rights to finish setup and generate the global MSBuild targets", "ITweakMyBuild", MessageBoxButton.OKCancel, MessageBoxImage.Information) != MessageBoxResult.OK)
+            if (MessageBox.Show("ITweakMyBuild needs administrative rights to finish setup and generate the global MSBuild targets", _title, MessageBoxButton.OKCancel, MessageBoxImage.Information) != MessageBoxResult.OK)
             {
-                MessageBox.Show("ITweakMyBuild setup is not complete, it may not work as expected.", "ITweakMyBuild", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("ITweakMyBuild setup is not complete, it may not work as expected.", _title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
 
-            var startInfo = new ProcessStartInfo(Path.ChangeExtension(typeof(Setup).Assembly.Location, ".Setup.exe"))
+            try
             {
-                CreateNoWindow = true,
-                UseShellExecute = true
-            };
+                var startInfo = new ProcessStartInfo(typeof(Setup).Assembly.Location)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = true
+                };
 
-            using (var process = Process.Start(startInfo))
+                using (var process = Process.Start(startInfo))
+                {
+                    process?.WaitForExit();
+                }
+            }
+            catch (Exception ex)
             {
-                process.WaitForExit();
+                MessageBox.Show(ex.Message, _title);
             }
         }
 

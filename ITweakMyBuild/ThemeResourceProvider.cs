@@ -9,9 +9,9 @@
     [Export(typeof(IThemeResourceProvider))]
     internal class ThemeResourceProvider : IThemeResourceProvider, DataGridExtensions.IContentFilter
     {
-        public void LoadThemeResources(ResourceDictionary resource)
+        void IThemeResourceProvider.LoadThemeResources(ResourceDictionary resource)
         {
-            resource?.MergedDictionaries.Insert(0, new ResourceDictionary { Source = GetType().Assembly.GeneratePackUri("Resources/VSColorScheme.xaml") });
+            resource.MergedDictionaries.Insert(0, new ResourceDictionary { Source = GetType().Assembly.GeneratePackUri("Resources/VSColorScheme.xaml") });
         }
 
         bool DataGridExtensions.IContentFilter.IsMatch(object value)
