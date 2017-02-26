@@ -10,7 +10,7 @@
     <PreviewImage>Resources\Icon64.png</PreviewImage>
     <Tags>MSBuild Build VisualStudio</Tags>
   </Metadata>
-  <Installation>
+  <Installation InstalledByMsi="false">
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[11.0,15.0]" />
   </Installation>
   <Dependencies>
