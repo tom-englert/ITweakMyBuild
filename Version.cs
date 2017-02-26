@@ -7,7 +7,7 @@ using ITweakMyBuild.Properties;
 
 [assembly: AssemblyCompany("tom-englert.de")]
 [assembly: AssemblyProduct("ITweakMyBuild")]
-[assembly: AssemblyCopyright("© tom-englert.de 2016")]
+[assembly: AssemblyCopyright("© tom-englert.de 2017")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
@@ -21,6 +21,6 @@ namespace ITweakMyBuild.Properties
 {
     internal static class Product
     {
-        public const string Version = "1.0.3.0";
+        public const string Version = "1.0.4.0";
     }
 }
