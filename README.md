@@ -20,7 +20,7 @@ It lets you locally override any property, without the need to switch the build 
 
 ### Download & Installation
 
-Download the latest MSI package from the [Visual Studio Gallery](https://marketplace.visualstudio.com/vsgallery/8824a4d1-1a86-4a8d-905d-3d12a9681dcc)
+Download the latest MSI package from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ITweakMyBuild)
 
 This will install the shared MSBuild targets as well as the Visual Studio Extension.
 
