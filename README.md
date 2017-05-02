@@ -20,9 +20,12 @@ It lets you locally override any property, without the need to switch the build 
 
 ### Download & Installation
 
-Download the latest MSI package from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ITweakMyBuild)
+Download the stable release from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ITweakMyBuild)
 
-This will install the shared MSBuild targets as well as the Visual Studio Extension.
+Download the latest build from the [Open VsixGallery](http://vsixgallery.com/extension/ITweakMyBuild.tom-englert.de.92edc38f-1498-4327-8078-6ff3cec52067/)
+
+This will install the Visual Studio Extension. 
+If the shared MSBuild targets are not yet installed, the tool will prompt you to elevate to install them.
 
 If you think this tool is helpful, support the project by writing a short [review](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ITweakMyBuild#review-details)
 
@@ -31,17 +34,17 @@ If you think this tool is helpful, support the project by writing a short [revie
 
 Show the configuration page by clicking the entry in the Tools menu:
 
-![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/menu.png)
+![screenshot](Assets/menu.png)
 
 Configure any property override, and activate or deactivate it on the fly:
 
-![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/toolwindow.png)
+![screenshot](Assets/toolwindow.png)
 
 Build you project. Whenever any property override is active, a red, flashing marker 
 appears in the title bar of Visual Studio while the project builds, to remind you that this 
 build is tweaked, and you should do a final build without tweaks before commiting any work.
 
-![screenshot](https://github.com/tom-englert/ITweakMyBuild/blob/master/Assets/buildindicator.png)
+![screenshot](Assets/buildindicator.png)
 
 ### Limitations
 

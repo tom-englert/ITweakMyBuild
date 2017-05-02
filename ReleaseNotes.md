@@ -1,6 +1,6 @@
 #### 1.1
 * Add support for Roslyn analyzers
-* Publish also on vsixgallery
+* Publish also on [Open VsixGallery](http://vsixgallery.com/extension/ITweakMyBuild.tom-englert.de.92edc38f-1498-4327-8078-6ff3cec52067/)
 
 #### 1.0.4.0
 * Refactor setup. Extension can be now published as VSIX instead of MSI so it will automatically update itself. Also now directly installable in VS2017.
