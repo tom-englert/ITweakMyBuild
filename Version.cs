@@ -21,6 +21,6 @@ namespace ITweakMyBuild.Properties
 {
     internal static class Product
     {
-        public const string Version = "1.0.4.0";
+        public const string Version = "1.1.0.0";
     }
 }

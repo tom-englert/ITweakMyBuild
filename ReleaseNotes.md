@@ -1,3 +1,7 @@
+#### 1.1
+* Add support for Roslyn analyzers
+* Publish also on vsixgallery
+
 #### 1.0.4.0
 * Refactor setup. Extension can be now published as VSIX instead of MSI so it will automatically update itself. Also now directly installable in VS2017.
 
