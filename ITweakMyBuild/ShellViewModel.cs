@@ -11,6 +11,8 @@
 
     using JetBrains.Annotations;
 
+    using PropertyChanged;
+
     using TomsToolbox.Core;
     using TomsToolbox.Desktop;
     using TomsToolbox.ObservableCollections;
@@ -18,6 +20,7 @@
 
     [Export]
     [VisualCompositionExport("Shell")]
+    [DoNotNotify]
     internal class ShellViewModel : ObservableObject, IStateMonitor, IDisposable
     {
         [NotNull]
@@ -44,6 +47,8 @@
 
         public ICollection<PropertyViewModel> Properties => _session.Properties;
 
+        public ICollection<AnalyzerViewModel> Analyzers => _session.Analyzers;
+
         public bool IsActive => _session.IsActive;
 
         [NotNull]
@@ -58,7 +63,9 @@
             if (_session.HasExternalChanges)
             {
                 _session = CreateSession();
+
                 OnPropertyChanged(nameof(Properties));
+                OnPropertyChanged(nameof(Analyzers));
             }
 
             OnPropertyChanged(nameof(IsActive));
@@ -80,6 +87,8 @@
         {
             [NotNull]
             private readonly ObservableCollection<PropertyViewModel> _properties;
+            [NotNull]
+            private readonly ObservableCollection<AnalyzerViewModel> _analyzers;
             [NotNull]
             private readonly DispatcherThrottle _applyChangesThrottle;
             [NotNull]
@@ -113,19 +122,32 @@
                 // ReSharper disable once PossibleNullReferenceException
                 _properties.ForEach(item => item.IsEnabled = !string.IsNullOrEmpty(item.Name) && _customTargetsFile.Properties.ContainsKey(item.Name));
 
-                _properties.CollectionChanged += Properties_Changed;
+                _properties.CollectionChanged += Content_Changed;
 
-                var propertyChangeTracker = new ObservablePropertyChangeTracker<PropertyViewModel>(_properties);
+                var propertyChangeTracker1 = new ObservablePropertyChangeTracker<PropertyViewModel>(_properties);
 
-                propertyChangeTracker.ItemPropertyChanged += Properties_Changed;
+                propertyChangeTracker1.ItemPropertyChanged += Content_Changed;
+
+                var analyzers = _settings.Analyzers ?? new Analyzer[0];
+
+                _analyzers = new ObservableCollection<AnalyzerViewModel>(analyzers.Select(item => new AnalyzerViewModel { Path = item.Path }));
+
+                _analyzers.CollectionChanged += Content_Changed;
+
+                var propertyChangeTracker2 = new ObservablePropertyChangeTracker<AnalyzerViewModel>(_analyzers);
+
+                propertyChangeTracker2.ItemPropertyChanged += Content_Changed;
             }
 
             public ICollection<PropertyViewModel> Properties => _properties;
 
+            public ICollection<AnalyzerViewModel> Analyzers => _analyzers;
+
             public bool HasExternalChanges => _settings.HasExternalChanges || _customTargetsFile.HasExternalChanges;
 
-            public bool IsActive => _customTargetsFile.Properties.Any();
+            public bool IsActive => _customTargetsFile.Properties.Any() || _customTargetsFile.Analyzers.Any();
 
+            [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
             [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
             private void ApplyChanges()
             {
@@ -134,15 +156,26 @@
                     .Select(item => new Property { Name = item.Name, Value = item.Value, Comment = item.Comment })
                     .ToArray();
 
+                _settings.Analyzers = _analyzers
+                    .Where(item => !string.IsNullOrEmpty(item?.Path))
+                    .Select(item => new Analyzer {Path = item.Path})
+                    .ToArray();
+
                 _settings.Save();
 
                 _customTargetsFile.Properties = _properties
                     .Where(item => (item?.IsEnabled == true) && !string.IsNullOrEmpty(item.Name))
                     .Distinct(new DelegateEqualityComparer<PropertyViewModel>(item => item.Name))
                     .ToDictionary(item => item.Name, item => item.Value);
+
+                _customTargetsFile.Analyzers = _analyzers
+                    .Where(item => (item?.IsEnabled == true))
+                    .Select(item => item.Path)
+                    .Where(item => !string.IsNullOrEmpty(item))
+                    .ToArray();
             }
 
-            private void Properties_Changed(object sender, EventArgs e)
+            private void Content_Changed(object sender, EventArgs e)
             {
                 _applyChangesThrottle.Tick();
             }

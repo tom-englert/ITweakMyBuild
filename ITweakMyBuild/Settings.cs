@@ -45,6 +45,11 @@
         [DataMember]
         public Property[] Properties { get; set; }
 
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Serialized")]
+        [DataMember]
+        public Analyzer[] Analyzers { get; set; }
+
+
         public bool HasExternalChanges => !File.Exists(_filePath) || _fileTime != File.GetLastWriteTime(_filePath);
 
         public void Save()
@@ -59,6 +64,13 @@
                 _tracer.TraceError(ex.ToString());
             }
         }
+    }
+
+    [DataContract]
+    public class Analyzer
+    {
+        [DataMember]
+        public string Path { get; set; }
     }
 
     [DataContract]

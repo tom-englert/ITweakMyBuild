@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
@@ -26,6 +25,12 @@
         [NotNull]
         // ReSharper disable once AssignNullToNotNullAttribute
         private static readonly XName _propertyGroupName = _xmlns + @"PropertyGroup";
+        [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
+        private static readonly XName _itemGroupName = _xmlns + @"ItemGroup";
+        [NotNull]
+        // ReSharper disable once AssignNullToNotNullAttribute
+        private static readonly XName _analyzerName = _xmlns + @"Analyzer";
 
         [NotNull]
         private readonly Tracer _tracer;
@@ -33,6 +38,8 @@
         private readonly XDocument _document;
         [NotNull]
         private readonly XElement _propertyGroup;
+        [NotNull]
+        private readonly XElement _itemGroup;
 
         private DateTime _fileTime;
 
@@ -60,20 +67,32 @@
             }
             finally
             {
-                if (_document.Root == null)
-                    _document.Add(new XElement(_projectName));
+                var documentRoot = _document.Root;
 
-                Contract.Assume(_document.Root != null);
-
-                // ReSharper disable once AssignNullToNotNullAttribute
-                _propertyGroup = _document.Root.Descendants(_propertyGroupName).FirstOrDefault();
-
-                if (_propertyGroup == null)
+                if (documentRoot == null)
                 {
-                    _propertyGroup = new XElement(_propertyGroupName);
-                    _document.Root.Add(_propertyGroup);
+                    documentRoot = new XElement(_projectName);
+                    _document.Add(documentRoot);
                 }
+
+                _propertyGroup = ForceElement(documentRoot, _propertyGroupName);
+
+                _itemGroup = ForceElement(documentRoot, _itemGroupName);
             }
+        }
+
+        [NotNull]
+        private static XElement ForceElement([NotNull] XContainer documentRoot, [NotNull] XName groupName)
+        {
+            var itemGroup = documentRoot.Descendants(groupName).FirstOrDefault();
+
+            if (itemGroup != null)
+                return itemGroup;
+
+            itemGroup = new XElement(groupName);
+            documentRoot.Add(itemGroup);
+
+            return itemGroup;
         }
 
         public bool HasExternalChanges => !File.Exists(_filePath) || _fileTime != File.GetLastWriteTime(_filePath);
@@ -108,6 +127,50 @@
 
                     // ReSharper disable AssignNullToNotNullAttribute
                     itemsToAdd.ForEach(item => _propertyGroup.Add(new XElement(_xmlns.GetName(item.Key), new XText(item.Value))));
+                    // ReSharper enable AssignNullToNotNullAttribute
+
+                    _document.Save(_filePath);
+                    _fileTime = File.GetLastWriteTime(_filePath);
+                }
+                catch (Exception ex)
+                {
+                    _tracer.TraceError(ex.ToString());
+                }
+            }
+        }
+
+        [NotNull]
+        public IReadOnlyCollection<string> Analyzers
+        {
+            get
+            {
+                return _itemGroup.Descendants(_analyzerName)
+                    // ReSharper disable once PossibleNullReferenceException
+                    .Where(item => item.Parent == _itemGroup)
+                    .Select(item => item.Attribute("Include")?.Value)
+                    .Where(item => item != null)
+                    .ToArray();
+            }
+            set
+            {
+                try
+                {
+                    var itemsToRemove = _itemGroup.Descendants(_analyzerName)
+                        // ReSharper disable once PossibleNullReferenceException
+                        .Where(item => item.Parent == _propertyGroup)
+                        .Where(item => !value.Contains(item.Attribute("Include")?.Value, StringComparer.OrdinalIgnoreCase))
+                        .ToArray();
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    itemsToRemove.ForEach(item => item.Remove());
+
+                    var existingItems = Analyzers;
+
+                    var itemsToAdd = value.Where(item => !existingItems.Contains(item, StringComparer.OrdinalIgnoreCase))
+                        .ToArray();
+
+                    // ReSharper disable AssignNullToNotNullAttribute
+                    itemsToAdd.ForEach(item => _itemGroup.Add(new XElement(_analyzerName, new XAttribute("Include", item))));
                     // ReSharper enable AssignNullToNotNullAttribute
 
                     _document.Save(_filePath);

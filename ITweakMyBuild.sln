@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITweakMyBuild", "ITweakMyBuild\ITweakMyBuild.csproj", "{7B333149-EBB9-4695-9941-98FA0142A5F9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C16AD655-7E3C-4BAE-827F-56602C318A64}"
 	ProjectSection(SolutionItems) = preProject
 		ITweakMyBuild\Properties\AssemblyInfo.cs = ITweakMyBuild\Properties\AssemblyInfo.cs
@@ -13,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ITweakMyBuild\source.extension.vsixmanifest = ITweakMyBuild\source.extension.vsixmanifest
 		Version.cs = Version.cs
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITweakMyBuild", "ITweakMyBuild\ITweakMyBuild.csproj", "{7B333149-EBB9-4695-9941-98FA0142A5F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITweakMyBuild.Setup", "ITweakMyBuild.Setup\ITweakMyBuild.Setup.csproj", "{73A1A5D0-7C63-4376-AF26-081EF6907DCE}"
 EndProject

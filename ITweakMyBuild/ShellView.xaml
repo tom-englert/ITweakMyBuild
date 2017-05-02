@@ -59,7 +59,9 @@
     </ResourceDictionary>
   </UserControl.Resources>
 
-  <Grid Margin="10">
+  <StackPanel Margin="10">
+    <TextBlock Text="Properties"/>
+    <Decorator Height="5"/>
     <DataGrid ItemsSource="{Binding Properties}"
               AutoGenerateColumns="False"
               VerticalContentAlignment="Center"
@@ -83,5 +85,29 @@
         </DataTemplate>
       </DataGrid.RowHeaderTemplate>
     </DataGrid>
-  </Grid>
+    <Decorator Height="10"/>
+    <TextBlock Text="Analyzers"/>
+    <Decorator Height="5"/>
+    <DataGrid ItemsSource="{Binding Analyzers}"
+              AutoGenerateColumns="False"
+              VerticalContentAlignment="Center"
+              CanUserReorderColumns="False"
+              CanUserResizeRows="False"
+              CellStyle="{StaticResource DataGridCellStyle}"
+              Style="{StaticResource {x:Static styles:ResourceKeys.DataGridStyle}}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Path" Width="*" Binding="{Binding Path, ValidatesOnDataErrors=True}" />
+      </DataGrid.Columns>
+      <DataGrid.ItemContainerStyle>
+        <Style TargetType="DataGridRow">
+          <Setter Property="IsSelected" Value="{Binding Path=(local:AnalyzerViewModel.IsEnabled)}" />
+        </Style>
+      </DataGrid.ItemContainerStyle>
+      <DataGrid.RowHeaderTemplate>
+        <DataTemplate DataType="DataGridRowHeader">
+          <CheckBox Style="{StaticResource DataGridRowCheckBoxStyle}" Margin="0" />
+        </DataTemplate>
+      </DataGrid.RowHeaderTemplate>
+    </DataGrid>
+  </StackPanel>
 </UserControl>
