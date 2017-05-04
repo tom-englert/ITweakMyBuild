@@ -157,7 +157,7 @@
                 {
                     var itemsToRemove = _itemGroup.Descendants(_analyzerName)
                         // ReSharper disable once PossibleNullReferenceException
-                        .Where(item => item.Parent == _propertyGroup)
+                        .Where(item => item.Parent == _itemGroup)
                         .Where(item => !value.Contains(item.Attribute("Include")?.Value, StringComparer.OrdinalIgnoreCase))
                         .ToArray();
 

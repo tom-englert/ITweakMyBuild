@@ -132,6 +132,8 @@
 
                 _analyzers = new ObservableCollection<AnalyzerViewModel>(analyzers.Select(item => new AnalyzerViewModel { Path = item.Path }));
 
+                _analyzers.ForEach(item => item.IsEnabled = !string.IsNullOrEmpty(item.Path) && _customTargetsFile.Analyzers.Contains(item.Path, StringComparer.OrdinalIgnoreCase));
+
                 _analyzers.CollectionChanged += Content_Changed;
 
                 var propertyChangeTracker2 = new ObservablePropertyChangeTracker<AnalyzerViewModel>(_analyzers);
@@ -158,7 +160,7 @@
 
                 _settings.Analyzers = _analyzers
                     .Where(item => !string.IsNullOrEmpty(item?.Path))
-                    .Select(item => new Analyzer {Path = item.Path})
+                    .Select(item => new Analyzer { Path = item.Path })
                     .ToArray();
 
                 _settings.Save();
