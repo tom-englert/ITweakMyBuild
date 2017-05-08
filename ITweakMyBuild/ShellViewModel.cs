@@ -110,7 +110,8 @@
                     {
                         new Property { Name = "CodeContractsRunCodeAnalysis", Value = "false", Comment = "Disable Static CodeContracts Analysis." },
                         new Property { Name = "CodeContractsEnableRuntimeChecking", Value = "false", Comment = "Disable CodeContracts Runtime Checking." },
-                        new Property { Name = "RunCodeAnalysisOnThisProject", Value = "false", Comment = "Disable Code Analysis on Build." }
+                        new Property { Name = "RunCodeAnalysisOnThisProject", Value = "false", Comment = "Disable Code Analysis on Build." },
+                        new Property { Name = "RunWixToolsOutOfProc", Value = "true", Comment = "Run the WiX Tools in separate process to avoid ICE errors and locked temporary folders." },
                     };
                 }
 
